@@ -123,26 +123,67 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------- Contact Form ----------
     const form = document.getElementById('contactForm');
     if (form) {
-        form.addEventListener('submit', (e) => {
+        const API_URL = 'https://script.google.com/macros/s/AKfycbyO05i63UczuLC4UMKZfd6MR_FYcpHN-zFluqAymQGVydMp9VajKUIObcdtFBcXsnCjaw/exec'; // ← Встав свій URL сюди
+
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const btn = form.querySelector('.btn');
             const originalText = btn.innerHTML;
 
+            // Збираємо дані форми
+            const data = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                service: document.getElementById('service').value,
+                message: document.getElementById('message').value,
+            };
+
+            // Стан "Відправка..."
+            btn.disabled = true;
             btn.innerHTML = `
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20 6L9 17l-5-5"/>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite;">
+                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
                 </svg>
-                Надіслано!
+                Відправка...
             `;
-            btn.style.background = '#4ade80';
-            btn.style.color = '#000';
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+
+                // Успіх
+                btn.innerHTML = `
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 6L9 17l-5-5"/>
+                    </svg>
+                    Надіслано!
+                `;
+                btn.style.background = '#4ade80';
+                btn.style.color = '#000';
+                form.reset();
+            } catch (err) {
+                // Помилка
+                btn.innerHTML = `
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                    Помилка!
+                `;
+                btn.style.background = '#ef4444';
+                btn.style.color = '#fff';
+                console.error(err);
+            }
 
             setTimeout(() => {
                 btn.innerHTML = originalText;
                 btn.style.background = '';
                 btn.style.color = '';
-                form.reset();
+                btn.disabled = false;
             }, 3000);
         });
     }
@@ -188,6 +229,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let scrollLeft = 0;
 
         track.addEventListener('mousedown', (e) => {
+            // Don't start drag if clicking on a link
+            if (e.target.closest('a')) return;
             isDragging = true;
             startX = e.pageX;
             scrollLeft = currentIndex * slideWidth;

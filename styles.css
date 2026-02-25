@@ -690,6 +690,7 @@ ul {
     opacity: 0;
     transition: opacity var(--transition-normal);
     border-radius: 20px;
+    pointer-events: none;
 }
 
 .portfolio-slide__inner:hover {
@@ -775,6 +776,8 @@ ul {
     border-radius: 100px;
     transition: all var(--transition-fast);
     align-self: flex-start;
+    position: relative;
+    z-index: 2;
 }
 
 .portfolio-slide__cta:hover {
