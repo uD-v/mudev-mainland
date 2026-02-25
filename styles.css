@@ -49,6 +49,149 @@
     --transition-slow: 0.8s var(--ease-out);
 }
 
+/* ---------- Light Theme ---------- */
+[data-theme="light"] {
+    --black: #ffffff;
+    --black-light: #f5f5f5;
+    --black-lighter: #eeeeee;
+    --gray-900: #f0f0f0;
+    --gray-800: #e0e0e0;
+    --gray-700: #cccccc;
+    --gray-600: #999999;
+    --gray-500: #777777;
+    --gray-400: #555555;
+    --gray-300: #444444;
+    --gray-200: #333333;
+    --gray-100: #222222;
+    --white: #111111;
+    --white-dim: rgba(0, 0, 0, 0.85);
+    --white-muted: rgba(0, 0, 0, 0.6);
+    --white-subtle: rgba(0, 0, 0, 0.08);
+    --white-ghost: rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .header.scrolled {
+    background: rgba(255, 255, 255, 0.85);
+}
+
+[data-theme="light"] .cursor-glow {
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.02) 0%, transparent 70%);
+}
+
+[data-theme="light"] .nav__link--cta {
+    color: var(--black);
+    background: var(--white);
+}
+
+[data-theme="light"] .hero__title-outline {
+    -webkit-text-stroke-color: var(--white);
+}
+
+[data-theme="light"] .hero__badge {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .hero__badge-dot {
+    background: #16a34a;
+}
+
+[data-theme="light"] .btn--primary {
+    background: var(--white);
+    color: var(--black);
+}
+
+[data-theme="light"] .portfolio-slide__cta:hover {
+    background: var(--white);
+    color: var(--black);
+}
+
+/* ---------- Theme Toggle Button ---------- */
+.theme-toggle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    background: var(--white-ghost);
+    border: 1px solid var(--white-subtle);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    margin-left: 8px;
+    overflow: hidden;
+}
+
+.theme-toggle:hover {
+    background: var(--white-subtle);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+[data-theme="light"] .theme-toggle:hover {
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+.theme-toggle__mu {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--white);
+    display: block;
+    line-height: 1;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    user-select: none;
+}
+
+.theme-toggle.active .theme-toggle__mu {
+    transform: rotate(180deg);
+}
+
+/* ---------- Theme Wave Transition ---------- */
+.theme-wave {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: scale(0);
+    width: 100px;
+    height: 100px;
+    margin-left: -50px;
+    margin-top: -50px;
+}
+
+.theme-wave--expand {
+    animation: theme-wave-expand 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes theme-wave-expand {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(50);
+        opacity: 0;
+    }
+}
+
+/* Smooth transitions for theme change */
+body,
+.header,
+.service-card,
+.portfolio-slide__inner,
+.about__feature,
+.contact__channel,
+.form__input,
+.portfolio__btn,
+.footer,
+.process__step-number,
+.btn {
+    transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+}
+
 html {
     scroll-behavior: smooth;
     font-size: 16px;

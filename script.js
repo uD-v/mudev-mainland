@@ -2,7 +2,57 @@
    μDev — Landing Page Scripts
    ============================================ */
 
+// ---------- Theme: restore before paint to prevent flash ----------
+(function () {
+    const saved = localStorage.getItem('mudev-theme');
+    if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+    } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
+
+    // ---------- Theme Toggle ----------
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        // Sync button state on load
+        if (document.documentElement.getAttribute('data-theme') === 'light') {
+            themeToggle.classList.add('active');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            const newTheme = isLight ? 'dark' : 'light';
+
+            // Create wave effect from button position
+            const rect = themeToggle.getBoundingClientRect();
+            const wave = document.createElement('div');
+            wave.className = 'theme-wave';
+            wave.style.left = rect.left + rect.width / 2 + 'px';
+            wave.style.top = rect.top + rect.height / 2 + 'px';
+            wave.style.background = isLight
+                ? 'radial-gradient(circle, #000 0%, #000 40%, transparent 70%)'
+                : 'radial-gradient(circle, #fff 0%, #fff 40%, transparent 70%)';
+            document.body.appendChild(wave);
+
+            // Trigger wave animation
+            requestAnimationFrame(() => {
+                wave.classList.add('theme-wave--expand');
+            });
+
+            // Apply theme mid-wave
+            setTimeout(() => {
+                document.documentElement.setAttribute('data-theme', newTheme);
+                themeToggle.classList.toggle('active');
+                localStorage.setItem('mudev-theme', newTheme);
+            }, 200);
+
+            // Clean up wave element
+            wave.addEventListener('animationend', () => wave.remove());
+        });
+    }
 
     // ---------- Cursor Glow ----------
     const cursorGlow = document.getElementById('cursorGlow');
