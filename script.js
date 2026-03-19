@@ -173,7 +173,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------- Contact Form ----------
     const form = document.getElementById('contactForm');
     if (form) {
-        const API_URL = 'https://script.google.com/macros/s/AKfycbyO05i63UczuLC4UMKZfd6MR_FYcpHN-zFluqAymQGVydMp9VajKUIObcdtFBcXsnCjaw/exec'; // ← Встав свій URL сюди
+        const API_URL = 'https://script.google.com/macros/s/AKfycbyO05i63UczuLC4UMKZfd6MR_FYcpHN-zFluqAymQGVydMp9VajKUIObcdtFBcXsnCjaw/exec';
+
+        // Helper to get i18n string
+        function t(key) {
+            if (window.mudevI18n) {
+                const lang = window.mudevI18n.getCurrentLang();
+                return window.mudevI18n.translations[lang]?.[key] || key;
+            }
+            return key;
+        }
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -181,7 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const btn = form.querySelector('.btn');
             const originalText = btn.innerHTML;
 
-            // Збираємо дані форми
             const data = {
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
@@ -189,14 +197,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 message: document.getElementById('message').value,
             };
 
-            // Стан "Відправка..."
             btn.disabled = true;
-            btn.innerHTML = `
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite;">
-                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
-                </svg>
-                Відправка...
-            `;
+            btn.innerHTML = t('form.sending');
 
             try {
                 const response = await fetch(API_URL, {
@@ -206,31 +208,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(data),
                 });
 
-                // Успіх
-                btn.innerHTML = `
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M20 6L9 17l-5-5"/>
-                    </svg>
-                    Надіслано!
-                `;
+                btn.innerHTML = t('form.success');
                 btn.style.background = '#4ade80';
                 btn.style.color = '#000';
                 form.reset();
             } catch (err) {
-                // Помилка
-                btn.innerHTML = `
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M18 6L6 18M6 6l12 12"/>
-                    </svg>
-                    Помилка!
-                `;
+                btn.innerHTML = t('form.error');
                 btn.style.background = '#ef4444';
                 btn.style.color = '#fff';
                 console.error(err);
             }
 
             setTimeout(() => {
-                btn.innerHTML = originalText;
+                btn.innerHTML = t('contact.form.submit');
                 btn.style.background = '';
                 btn.style.color = '';
                 btn.disabled = false;

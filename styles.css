@@ -148,6 +148,42 @@
     transform: rotate(180deg);
 }
 
+/* ---------- Language Toggle Button ---------- */
+.lang-toggle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 42px;
+    padding: 0 14px;
+    background: var(--white-ghost);
+    border: 1px solid var(--white-subtle);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    margin-left: 8px;
+    overflow: hidden;
+}
+
+.lang-toggle:hover {
+    background: var(--white-subtle);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+[data-theme="light"] .lang-toggle:hover {
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+.lang-toggle__label {
+    font-family: var(--font-primary);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.08em;
+    user-select: none;
+}
+
 /* ---------- Theme Wave Transition ---------- */
 .theme-wave {
     position: fixed;
@@ -459,6 +495,7 @@ ul {
     align-items: center;
     position: relative;
     z-index: 2;
+    width: 100%;
 }
 
 .hero__badge {
