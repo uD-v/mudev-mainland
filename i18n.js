@@ -235,11 +235,11 @@ const translations = {
 
 // ---------- i18n Engine ----------
 
-let currentLang = localStorage.getItem('mudev-lang') || 'uk';
+let currentLang = localStorage.getItem('lang') || 'uk';
 
 function setLanguage(lang) {
     currentLang = lang;
-    localStorage.setItem('mudev-lang', lang);
+    localStorage.setItem('lang', lang);
 
     const dict = translations[lang];
     if (!dict) return;

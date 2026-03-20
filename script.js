@@ -4,7 +4,7 @@
 
 // ---------- Theme: restore before paint to prevent flash ----------
 (function () {
-    const saved = localStorage.getItem('mudev-theme');
+    const saved = localStorage.getItem('theme');
     if (saved) {
         document.documentElement.setAttribute('data-theme', saved);
     } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 document.documentElement.setAttribute('data-theme', newTheme);
                 themeToggle.classList.toggle('active');
-                localStorage.setItem('mudev-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
             }, 200);
 
             // Clean up wave element
@@ -259,19 +259,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function goToSlide(index) {
             currentIndex = Math.max(0, Math.min(index, slides.length - 1));
-            
+
             const parentWidth = track.parentElement.clientWidth;
             const paddingLeft = parseFloat(window.getComputedStyle(track).paddingLeft) || 0;
-            
+
             // Calculate where the center of the active slide currently is
             const absoluteSlideCenter = paddingLeft + (currentIndex * slideWidth) + (380 / 2);
-            
+
             // Bring this center to the middle of the viewport
             let centeredTranslate = absoluteSlideCenter - (parentWidth / 2);
-            
+
             // Keep the first slide aligned if centering would pull slider right of 0
             currentTranslate = Math.max(0, centeredTranslate);
-            
+
             track.style.transform = `translateX(-${currentTranslate}px)`;
             updateDots();
         }
@@ -298,16 +298,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const x = e.pageX;
             const walk = startX - x;
             let translate = scrollLeft + walk;
-            
+
             // Apply bounds with friction
             const parentWidth = track.parentElement.clientWidth;
             const paddingLeft = parseFloat(window.getComputedStyle(track).paddingLeft) || 0;
             const lastSlideCenter = paddingLeft + ((slides.length - 1) * slideWidth) + (380 / 2);
             const maxTranslate = Math.max(0, lastSlideCenter - (parentWidth / 2));
-            
+
             if (translate < 0) translate = translate * 0.5;
             else if (translate > maxTranslate) translate = maxTranslate + (translate - maxTranslate) * 0.5;
-            
+
             track.style.transform = `translateX(-${translate}px)`;
         });
 
@@ -334,16 +334,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const x = e.touches[0].pageX;
             const walk = startX - x;
             let translate = scrollLeft + walk;
-            
+
             // Apply bounds with friction
             const parentWidth = track.parentElement.clientWidth;
             const paddingLeft = parseFloat(window.getComputedStyle(track).paddingLeft) || 0;
             const lastSlideCenter = paddingLeft + ((slides.length - 1) * slideWidth) + (380 / 2);
             const maxTranslate = Math.max(0, lastSlideCenter - (parentWidth / 2));
-            
+
             if (translate < 0) translate = translate * 0.5;
             else if (translate > maxTranslate) translate = maxTranslate + (translate - maxTranslate) * 0.5;
-            
+
             track.style.transform = `translateX(-${translate}px)`;
         }, { passive: true });
 
