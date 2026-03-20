@@ -85,6 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         navToggle.addEventListener('click', () => {
             navToggle.classList.toggle('active');
             navMenu.classList.toggle('active');
+            header.classList.toggle('menu-open');
             document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
         });
 
@@ -92,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
             link.addEventListener('click', () => {
                 navToggle.classList.remove('active');
                 navMenu.classList.remove('active');
+                header.classList.remove('menu-open');
                 document.body.style.overflow = '';
             });
         });
@@ -237,6 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (track && prevBtn && nextBtn && dotsContainer) {
         const slides = track.querySelectorAll('.portfolio-slide');
         let currentIndex = 0;
+        let currentTranslate = 0;
         const slideWidth = 380 + 24; // slide width + gap
 
         // Create dots
@@ -256,7 +259,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function goToSlide(index) {
             currentIndex = Math.max(0, Math.min(index, slides.length - 1));
-            track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+            
+            const parentWidth = track.parentElement.clientWidth;
+            const paddingLeft = parseFloat(window.getComputedStyle(track).paddingLeft) || 0;
+            
+            // Calculate where the center of the active slide currently is
+            const absoluteSlideCenter = paddingLeft + (currentIndex * slideWidth) + (380 / 2);
+            
+            // Bring this center to the middle of the viewport
+            let centeredTranslate = absoluteSlideCenter - (parentWidth / 2);
+            
+            // Keep the first slide aligned if centering would pull slider right of 0
+            currentTranslate = Math.max(0, centeredTranslate);
+            
+            track.style.transform = `translateX(-${currentTranslate}px)`;
             updateDots();
         }
 
@@ -273,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target.closest('a')) return;
             isDragging = true;
             startX = e.pageX;
-            scrollLeft = currentIndex * slideWidth;
+            scrollLeft = currentTranslate;
             track.style.transition = 'none';
         });
 
@@ -281,7 +297,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isDragging) return;
             const x = e.pageX;
             const walk = startX - x;
-            track.style.transform = `translateX(-${scrollLeft + walk}px)`;
+            let translate = scrollLeft + walk;
+            
+            // Apply bounds with friction
+            const parentWidth = track.parentElement.clientWidth;
+            const paddingLeft = parseFloat(window.getComputedStyle(track).paddingLeft) || 0;
+            const lastSlideCenter = paddingLeft + ((slides.length - 1) * slideWidth) + (380 / 2);
+            const maxTranslate = Math.max(0, lastSlideCenter - (parentWidth / 2));
+            
+            if (translate < 0) translate = translate * 0.5;
+            else if (translate > maxTranslate) translate = maxTranslate + (translate - maxTranslate) * 0.5;
+            
+            track.style.transform = `translateX(-${translate}px)`;
         });
 
         document.addEventListener('mouseup', (e) => {
@@ -299,14 +326,25 @@ document.addEventListener('DOMContentLoaded', () => {
         // Touch support
         track.addEventListener('touchstart', (e) => {
             startX = e.touches[0].pageX;
-            scrollLeft = currentIndex * slideWidth;
+            scrollLeft = currentTranslate;
             track.style.transition = 'none';
         }, { passive: true });
 
         track.addEventListener('touchmove', (e) => {
             const x = e.touches[0].pageX;
             const walk = startX - x;
-            track.style.transform = `translateX(-${scrollLeft + walk}px)`;
+            let translate = scrollLeft + walk;
+            
+            // Apply bounds with friction
+            const parentWidth = track.parentElement.clientWidth;
+            const paddingLeft = parseFloat(window.getComputedStyle(track).paddingLeft) || 0;
+            const lastSlideCenter = paddingLeft + ((slides.length - 1) * slideWidth) + (380 / 2);
+            const maxTranslate = Math.max(0, lastSlideCenter - (parentWidth / 2));
+            
+            if (translate < 0) translate = translate * 0.5;
+            else if (translate > maxTranslate) translate = maxTranslate + (translate - maxTranslate) * 0.5;
+            
+            track.style.transform = `translateX(-${translate}px)`;
         }, { passive: true });
 
         track.addEventListener('touchend', (e) => {
