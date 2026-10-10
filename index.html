@@ -1,547 +1,167 @@
 <!DOCTYPE html>
 <html lang="uk">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>μDev — Студія веб-розробки</title>
-    <meta name="description"
-        content="μDev — студія розробки веб-додатків, лендингів та Telegram ботів. Сучасні цифрові рішення для вашого бізнесу.">
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>μDev — Сайти, веб-додатки та Telegram-боти для бізнесу</title>
+<meta name="description" content="μDev — студія, що розробляє сайти, веб-додатки та Telegram-боти: дизайн, розробка, запуск і підтримка в одній команді.">
+<meta property="og:title" content="μDev — Сайти, веб-додатки та Telegram-боти">
+<meta property="og:description" content="Від першого дзвінка до запуску: дизайн, розробка і підтримка в одній команді.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>try{var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');document.documentElement.dataset.theme=t}catch(e){}</script>
 </head>
-
 <body>
-    <!-- Cursor glow effect -->
-    <div class="cursor-glow" id="cursorGlow"></div>
-
-    <!-- Navigation -->
-    <header class="header" id="header">
-        <nav class="nav container">
-
-            <div class="nav__brand" style="display: flex; align-items: center;">
-                <button class="theme-toggle" id="themeToggle" aria-label="Переключити тему" title="Переключити тему">
-                    <span class="theme-toggle__mu">μ</span>
-                </button>
-                <button class="lang-toggle" id="langToggle" aria-label="Switch language">
-                    <span class="lang-toggle__label">EN</span>
-                </button>
-            </div>
-            <ul class="nav__menu" id="navMenu">
-                <li><a href="#services" class="nav__link" data-i18n="nav.services">Послуги</a></li>
-                <li><a href="#portfolio" class="nav__link" data-i18n="nav.portfolio">Портфоліо</a></li>
-                <li><a href="#process" class="nav__link" data-i18n="nav.process">Процес</a></li>
-                <li><a href="#about" class="nav__link" data-i18n="nav.about">Про нас</a></li>
-                <li><a href="#contact" class="nav__link nav__link--cta" data-i18n="nav.contact">Зв'язатися</a></li>
-            </ul>
-
-            <button class="nav__toggle" id="navToggle" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </nav>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero" id="hero">
-        <div class="hero__bg-grid"></div>
-        <div class="hero__particles" id="particles"></div>
-        <div class="container hero__container">
-            <div class="hero__content">
-                <div class="hero__badge" data-animate="fade-up" data-i18n="hero.badge">
-                    <span class="hero__badge-dot"></span>
-                    Приймаємо нові проєкти
-                </div>
-                <h1 class="hero__title" data-animate="fade-up" data-delay="100" data-i18n="hero.title">
-                    Створюємо<br>
-                    <span class="hero__title-accent">цифрові</span> продукти,<br>
-                    що <span class="hero__title-outline">працюють</span>
-                </h1>
-                <p class="hero__description" data-animate="fade-up" data-delay="200" data-i18n="hero.description">
-                    Веб-додатки, лендинги та Telegram боти — від ідеї до запуску.
-                    Ми перетворюємо ваші бізнес-задачі на елегантні технологічні рішення.
-                </p>
-                <div class="hero__actions" data-animate="fade-up" data-delay="300">
-                    <a href="#contact" class="btn btn--primary" data-i18n="hero.cta.primary">
-                        Обговорити проєкт
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M7 17L17 7M17 7H7M17 7V17" />
-                        </svg>
-                    </a>
-                    <a href="#portfolio" class="btn btn--ghost" data-i18n="hero.cta.secondary">Наші роботи</a>
-                </div>
-                <div class="hero__stats" data-animate="fade-up" data-delay="400">
-                    <div class="hero__stat">
-                        <span class="hero__stat-number" data-count="15">0</span><span class="hero__stat-plus">+</span>
-                        <span class="hero__stat-label" data-i18n="hero.stat.projects">Проєктів</span>
-                    </div>
-                    <div class="hero__stat-divider"></div>
-                    <div class="hero__stat">
-                        <span class="hero__stat-number" data-count="10">0</span><span class="hero__stat-plus">+</span>
-                        <span class="hero__stat-label" data-i18n="hero.stat.clients">Клієнтів</span>
-                    </div>
-                    <div class="hero__stat-divider"></div>
-                    <div class="hero__stat">
-                        <span class="hero__stat-number" data-count="2">0</span>
-                        <span class="hero__stat-label" data-i18n="hero.stat.years">Роки досвіду</span>
-                    </div>
-                </div>
-            </div>
-            <div class="hero__visual" data-animate="fade-left" data-delay="200">
-                <div class="hero__visual-frame">
-                    <img src="favicon.png" alt="μDev Symbol" class="hero__visual-logo">
-                    <div class="hero__visual-ring hero__visual-ring--1"></div>
-                    <div class="hero__visual-ring hero__visual-ring--2"></div>
-                    <div class="hero__visual-ring hero__visual-ring--3"></div>
-                </div>
-            </div>
-        </div>
-        <div class="hero__scroll">
-            <span data-i18n="hero.scroll">Скрольте вниз</span>
-            <div class="hero__scroll-line"></div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section class="services section" id="services">
-        <div class="container">
-            <div class="section__header" data-animate="fade-up">
-                <span class="section__tag" data-i18n="services.tag">01 / Послуги</span>
-                <h2 class="section__title" data-i18n="services.title">Що ми <span class="text-accent">робимо</span></h2>
-                <p class="section__subtitle" data-i18n="services.subtitle">Повний спектр послуг для вашої цифрової присутності</p>
-            </div>
-            <div class="services__grid">
-                <!-- Web Apps -->
-                <div class="service-card" data-animate="fade-up" data-delay="100">
-                    <div class="service-card__icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1.5">
-                            <rect x="2" y="3" width="20" height="14" rx="2" />
-                            <path d="M8 21h8M12 17v4" />
-                            <path d="M7 8l3 3-3 3M12 14h5" />
-                        </svg>
-                    </div>
-                    <span class="service-card__number">01</span>
-                    <h3 class="service-card__title" data-i18n="services.webapp.title">Веб-додатки</h3>
-                    <p class="service-card__text" data-i18n="services.webapp.text">
-                        Складні веб-застосунки з інтуїтивним інтерфейсом, потужним бекендом та масштабованою
-                        архітектурою. CRM, SaaS, панелі адміністратора та інше.
-                    </p>
-                    <ul class="service-card__tags">
-                        <li>React / Next.js</li>
-                        <li>Node.js</li>
-                        <li>Python</li>
-                        <li>PostgreSQL</li>
-                    </ul>
-                </div>
-                <!-- Landing Pages -->
-                <div class="service-card" data-animate="fade-up" data-delay="200">
-                    <div class="service-card__icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1.5">
-                            <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                            <path d="M2 17l10 5 10-5" />
-                            <path d="M2 12l10 5 10-5" />
-                        </svg>
-                    </div>
-                    <span class="service-card__number">02</span>
-                    <h3 class="service-card__title" data-i18n="services.landing.title">Лендинги</h3>
-                    <p class="service-card__text" data-i18n="services.landing.text">
-                        Висококонверсійні посадкові сторінки з продуманим UX та приголомшливим дизайном. Кожна деталь
-                        працює на результат — ваші продажі.
-                    </p>
-                    <ul class="service-card__tags">
-                        <li data-i18n="services.landing.tag1">UI/UX Дизайн</li>
-                        <li data-i18n="services.landing.tag2">Адаптив</li>
-                        <li data-i18n="services.landing.tag3">SEO</li>
-                        <li data-i18n="services.landing.tag4">Анімації</li>
-                    </ul>
-                </div>
-                <!-- Telegram Bots -->
-                <div class="service-card" data-animate="fade-up" data-delay="300">
-                    <div class="service-card__icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1.5">
-                            <path
-                                d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" />
-                            <path d="M9 10h.01M12 10h.01M15 10h.01" />
-                        </svg>
-                    </div>
-                    <span class="service-card__number">03</span>
-                    <h3 class="service-card__title" data-i18n="services.bot.title">Telegram-боти</h3>
-                    <p class="service-card__text" data-i18n="services.bot.text">
-                        Розумні боти для автоматизації бізнес-процесів, підтримки клієнтів, прийому замовлень та
-                        платежів. Інтеграція з будь-якими системами.
-                    </p>
-                    <ul class="service-card__tags">
-                        <li>Python</li>
-                        <li>Aiogram</li>
-                        <li data-i18n="services.bot.tag3">Платежі</li>
-                        <li>API</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Portfolio Section -->
-    <section class="portfolio section" id="portfolio">
-        <div class="container">
-            <div class="section__header" data-animate="fade-up">
-                <span class="section__tag" data-i18n="portfolio.tag">02 / Портфоліо</span>
-                <h2 class="section__title" data-i18n="portfolio.title">Наші <span class="text-accent">проєкти</span></h2>
-                <p class="section__subtitle" data-i18n="portfolio.subtitle">Реальні рішення, що приносять результат</p>
-            </div>
-        </div>
-        <div class="portfolio__carousel" data-animate="fade-up" data-delay="100">
-            <div class="portfolio__track" id="portfolioTrack">
-                <!-- Card 1 -->
-                <div class="portfolio-slide">
-                    <div class="portfolio-slide__inner">
-                        <div class="portfolio-slide__icon">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="1.5">
-                                <rect x="2" y="3" width="20" height="14" rx="2" />
-                                <path d="M8 21h8M12 17v4" />
-                                <path d="M7 8l3 3-3 3M12 14h5" />
-                            </svg>
-                        </div>
-                        <span class="portfolio-slide__category" data-i18n="portfolio.card1.category">Веб-додаток</span>
-                        <h3 class="portfolio-slide__title">SproTrade</h3>
-                        <p class="portfolio-slide__desc" data-i18n="portfolio.card1.desc">Це масштабна освітня екосистема в Telegram, що поєднує модульне
-                            навчання з покроковим доступом та інтелектуальну підтримку учнів через AI-помічника.
-                            Платформа інтегрує аналітику від TradingView для генерації сигналів у реальному часі, а
-                            також повністю автоматизує прийом платежів та керування доступами до закритого ком'юніті.
-                        </p>
-                        <ul class="portfolio-slide__stack">
-                            <li>Python</li>
-                            <li>Django</li>
-                            <li>React</li>
-                            <li>Telegram Bot</li>
-                        </ul>
-                        <br>
-                        <a href="https://sprotrade.mudev.agency" class="portfolio-slide__cta" rel="noopener" data-i18n="portfolio.card1.cta">Переглянути
-                            →</a>
-                        <span class="portfolio-slide__number">01</span>
-                    </div>
-                </div>
-                <!-- Card 2 -->
-                <div class="portfolio-slide">
-                    <div class="portfolio-slide__inner">
-                        <div class="portfolio-slide__icon">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="1.5">
-                                <path
-                                    d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" />
-                                <path d="M9 10h.01M12 10h.01M15 10h.01" />
-                            </svg>
-                        </div>
-                        <span class="portfolio-slide__category" data-i18n="portfolio.card2.category">Telegram-бот</span>
-                        <h3 class="portfolio-slide__title">PlanetCash Shop</h3>
-                        <p class="portfolio-slide__desc" data-i18n="portfolio.card2.desc">Це масштабна P2P-платформа в Telegram для торгівлі цифровими
-                            товарами з рольовою моделлю продавця та покупця. В основі лежить механізм безпечної угоди з
-                            холдуванням коштів до підтвердження отримання товару та інтегрована оплата через Crypto Bot.
-                            Система включає кабінети користувачів, рейтинг на основі фідбеку та керований вивід коштів
-                            через адмін-панель для захисту від шахрайства.
-                        </p>
-                        <ul class="portfolio-slide__stack">
-                            <li>Python</li>
-                            <li>Aiogram</li>
-                            <li>Crypto Bot</li>
-                            <li>PostgreSQL</li>
-                        </ul>
-                        <span class="portfolio-slide__number">03</span>
-                    </div>
-                </div>
-                <!-- Card 3 -->
-                <div class="portfolio-slide">
-                    <div class="portfolio-slide__inner">
-                        <div class="portfolio-slide__icon">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="1.5">
-                                <path
-                                    d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" />
-                                <path d="M9 10h.01M12 10h.01M15 10h.01" />
-                            </svg>
-                        </div>
-                        <span class="portfolio-slide__category" data-i18n="portfolio.card3.category">Telegram-бот</span>
-                        <h3 class="portfolio-slide__title">SOCAROVSKIY 1%</h3>
-                        <p class="portfolio-slide__desc" data-i18n="portfolio.card3.desc">Користувацький інструмент для миттєвого теханалізу. Бот у
-                            реальному часі парсить дані з TradingView за обраною парою та таймфреймом, генерує торговий
-                            сигнал та надсилає актуальний графік прямо в чат.</p>
-                        <ul class="portfolio-slide__stack">
-                            <li>TradingView</li>
-                            <li>Python</li>
-                            <li>Aiogram</li>
-                            <li>PostgreSQL</li>
-                        </ul>
-                        <span class="portfolio-slide__number">03</span>
-                    </div>
-                </div>
-                <!-- Card 4 -->
-                <div class="portfolio-slide">
-                    <div class="portfolio-slide__inner">
-                        <div class="portfolio-slide__icon">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="1.5">
-                                <path
-                                    d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" />
-                                <path d="M9 10h.01M12 10h.01M15 10h.01" />
-                            </svg>
-                        </div>
-                        <span class="portfolio-slide__category" data-i18n="portfolio.card4.category">Telegram-бот</span>
-                        <h3 class="portfolio-slide__title">Smart Messenger Automator</h3>
-                        <p class="portfolio-slide__desc" data-i18n="portfolio.card4.desc">Персональний асистент для масових розсилок у Telegram. Бот
-                            автоматизує рутинну відправку контенту (текст, медіа, Video Notes, Voice) у вибрані групи
-                            чатів, зберігаючи персоналізований підхід та економлячи час користувача.
-                        </p>
-                        <ul class="portfolio-slide__stack">
-                            <li>Python</li>
-                            <li>Aiogram</li>
-                            <li>Telethon</li>
-                            <li>PostgreSQL</li>
-                        </ul>
-                        <span class="portfolio-slide__number">03</span>
-                    </div>
-                </div>
-                <!-- Card 5 -->
-                <div class="portfolio-slide">
-                    <div class="portfolio-slide__inner">
-                        <div class="portfolio-slide__icon">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="1.5">
-                                <circle cx="12" cy="12" r="10" />
-                                <path
-                                    d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
-                            </svg>
-                        </div>
-                        <span class="portfolio-slide__category" data-i18n="portfolio.card5.category">Веб-додаток</span>
-                        <h3 class="portfolio-slide__title" data-i18n="portfolio.card5.title">Ваш проєкт?</h3>
-                        <p class="portfolio-slide__desc" data-i18n="portfolio.card5.desc">Маєте ідею? Ми допоможемо реалізувати її від концепції до
-                            запуску</p>
-                        <a href="#contact" class="portfolio-slide__cta" data-i18n="portfolio.card5.cta">Обговорити →</a>
-                        <span class="portfolio-slide__number">04</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="portfolio__controls">
-                <button class="portfolio__btn" id="portfolioPrev" aria-label="Previous">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M19 12H5M12 19l-7-7 7-7" />
-                    </svg>
-                </button>
-                <div class="portfolio__dots" id="portfolioDots"></div>
-                <button class="portfolio__btn" id="portfolioNext" aria-label="Next">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Process Section -->
-    <section class="process section" id="process">
-        <div class="container">
-            <div class="section__header" data-animate="fade-up">
-                <span class="section__tag" data-i18n="process.tag">03 / Процес</span>
-                <h2 class="section__title" data-i18n="process.title">Як ми <span class="text-accent">працюємо</span></h2>
-                <p class="section__subtitle" data-i18n="process.subtitle">Прозорий процес від першого дзвінка до запуску</p>
-            </div>
-            <div class="process__timeline">
-                <div class="process__step" data-animate="fade-up" data-delay="100">
-                    <div class="process__step-number">01</div>
-                    <div class="process__step-content">
-                        <h3 class="process__step-title" data-i18n="process.step1.title">Знайомство</h3>
-                        <p class="process__step-text" data-i18n="process.step1.text">Дізнаємося про ваш бізнес, цілі та очікування. Визначаємо обсяг
-                            робіт та формуємо технічне завдання.</p>
-                    </div>
-                    <div class="process__step-line"></div>
-                </div>
-                <div class="process__step" data-animate="fade-up" data-delay="200">
-                    <div class="process__step-number">02</div>
-                    <div class="process__step-content">
-                        <h3 class="process__step-title" data-i18n="process.step2.title">Дизайн</h3>
-                        <p class="process__step-text" data-i18n="process.step2.text">Створюємо прототипи та дизайн-макети. Кожен екран погоджується з
-                            вами до початку розробки.</p>
-                    </div>
-                    <div class="process__step-line"></div>
-                </div>
-                <div class="process__step" data-animate="fade-up" data-delay="300">
-                    <div class="process__step-number">03</div>
-                    <div class="process__step-content">
-                        <h3 class="process__step-title" data-i18n="process.step3.title">Розробка</h3>
-                        <p class="process__step-text" data-i18n="process.step3.text">Пишемо чистий, масштабований код. Регулярні демонстрації прогресу
-                            та прозора комунікація.</p>
-                    </div>
-                    <div class="process__step-line"></div>
-                </div>
-                <div class="process__step" data-animate="fade-up" data-delay="400">
-                    <div class="process__step-number">04</div>
-                    <div class="process__step-content">
-                        <h3 class="process__step-title" data-i18n="process.step4.title">Запуск</h3>
-                        <p class="process__step-text" data-i18n="process.step4.text">Тестування, оптимізація та деплой. Забезпечуємо підтримку після
-                            запуску та допомагаємо з розвитком продукту.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About / Why Us Section -->
-    <section class="about section" id="about">
-        <div class="container">
-            <div class="section__header" data-animate="fade-up">
-                <span class="section__tag" data-i18n="about.tag">04 / Про нас</span>
-                <h2 class="section__title" data-i18n="about.title">Чому <span class="text-accent">μDev</span></h2>
-            </div>
-            <div class="about__grid">
-                <div class="about__feature" data-animate="fade-up" data-delay="100">
-                    <div class="about__feature-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1.5">
-                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                        </svg>
-                    </div>
-                    <h3 class="about__feature-title" data-i18n="about.speed.title">Швидкість</h3>
-                    <p class="about__feature-text" data-i18n="about.speed.text">Дотримуємося дедлайнів. MVP за 2-4 тижні, складні проєкти — за
-                        узгодженим графіком.</p>
-                </div>
-                <div class="about__feature" data-animate="fade-up" data-delay="200">
-                    <div class="about__feature-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1.5">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                        </svg>
-                    </div>
-                    <h3 class="about__feature-title" data-i18n="about.quality.title">Якість</h3>
-                    <p class="about__feature-text" data-i18n="about.quality.text">Чистий код, сучасні технології та увага до деталей. Кожен проєкт —
-                        наша репутація.</p>
-                </div>
-                <div class="about__feature" data-animate="fade-up" data-delay="300">
-                    <div class="about__feature-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1.5">
-                            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                            <circle cx="9" cy="7" r="4" />
-                            <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
-                        </svg>
-                    </div>
-                    <h3 class="about__feature-title" data-i18n="about.communication.title">Комунікація</h3>
-                    <p class="about__feature-text" data-i18n="about.communication.text">Завжди на зв'язку. Прозорий процес, регулярні звіти та жодних
-                        сюрпризів.</p>
-                </div>
-                <div class="about__feature" data-animate="fade-up" data-delay="400">
-                    <div class="about__feature-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="1.5">
-                            <circle cx="12" cy="12" r="10" />
-                            <path
-                                d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
-                        </svg>
-                    </div>
-                    <h3 class="about__feature-title" data-i18n="about.support.title">Підтримка</h3>
-                    <p class="about__feature-text" data-i18n="about.support.text">Не залишаємо після запуску. Технічна підтримка, оновлення та
-                        масштабування продукту.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact section" id="contact">
-        <div class="container">
-            <div class="contact__wrapper">
-                <div class="contact__info" data-animate="fade-up">
-                    <span class="section__tag" data-i18n="contact.tag">05 / Контакти</span>
-                    <h2 class="section__title" data-i18n="contact.title">Давайте створимо<br>щось <span class="text-accent">особливе</span></h2>
-                    <p class="contact__description" data-i18n="contact.description">
-                        Маєте ідею або проєкт? Напишіть нам — обговоримо деталі та знайдемо найкраще рішення для вашого
-                        бізнесу.
-                    </p>
-                    <div class="contact__channels">
-                        <a href="https://t.me/mudev_agency" class="contact__channel" target="_blank" rel="noopener">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
-                            </svg>
-                            <span>Telegram</span>
-                        </a>
-                        <a href="mailto:support@mudev.agency" class="contact__channel">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="1.5">
-                                <rect x="2" y="4" width="20" height="16" rx="2" />
-                                <path d="M22 4L12 13 2 4" />
-                            </svg>
-                            <span>support@mudev.agency</span>
-                        </a>
-                    </div>
-                </div>
-                <form class="contact__form" data-animate="fade-up" data-delay="200" id="contactForm">
-                    <div class="form__group">
-                        <input type="text" id="name" class="form__input" placeholder=" " required>
-                        <label for="name" class="form__label" data-i18n="contact.form.name">Ваше ім'я</label>
-                    </div>
-                    <div class="form__group">
-                        <input type="email" id="email" class="form__input" placeholder=" " required>
-                        <label for="email" class="form__label" data-i18n="contact.form.email">Email</label>
-                    </div>
-                    <div class="form__group">
-                        <select id="service" class="form__input form__select" required>
-                            <option value="" disabled selected data-i18n="contact.form.service.placeholder">Оберіть послугу</option>
-                            <option value="webapp" data-i18n="contact.form.service.webapp">Веб-додаток</option>
-                            <option value="landing" data-i18n="contact.form.service.landing">Лендинг</option>
-                            <option value="bot" data-i18n="contact.form.service.bot">Telegram-бот</option>
-                            <option value="other" data-i18n="contact.form.service.other">Інше</option>
-                        </select>
-                    </div>
-                    <div class="form__group">
-                        <textarea id="message" class="form__input form__textarea" placeholder=" " rows="4"></textarea>
-                        <label for="message" class="form__label" data-i18n="contact.form.message">Розкажіть про проєкт</label>
-                    </div>
-                    <button type="submit" class="btn btn--primary btn--full" data-i18n="contact.form.submit">
-                        Надіслати запит
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
-                        </svg>
-                    </button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container footer__container">
-            <div class="footer__brand">
-
-                <p class="footer__text" data-i18n="footer.tagline">Цифрові рішення для амбітних бізнесів</p>
-            </div>
-            <div class="footer__links">
-                <a href="#services" data-i18n="footer.services">Послуги</a>
-                <a href="#portfolio" data-i18n="footer.portfolio">Портфоліо</a>
-                <a href="#process" data-i18n="footer.process">Процес</a>
-                <a href="#about" data-i18n="footer.about">Про нас</a>
-                <a href="#contact" data-i18n="footer.contact">Контакти</a>
-            </div>
-            <div class="footer__bottom">
-                <p data-i18n="footer.copy">&copy; 2026 μDev. Усі права захищені.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="i18n.js"></script>
-    <script src="script.js"></script>
+<header class="header">
+  <div class="wrap nav">
+    <button class="brand logo" id="theme" type="button" aria-label="Змінити тему" title="Змінити тему"><span class="mu">μ</span>Dev</button>
+    <nav class="menu" id="menu" aria-label="Головне меню">
+      <a href="#services" data-en="Services">Послуги</a>
+      <a href="#portfolio" data-en="Portfolio">Портфоліо</a>
+      <a href="#process" data-en="Process">Процес</a>
+      <a href="#about" data-en="Why us">Чому ми</a>
+      <a href="#contact" data-en="Contact">Контакти</a>
+    </nav>
+    <div class="tools">
+      <button class="tool" id="lang" type="button" aria-label="Switch language">EN</button>
+      <a class="btn btn--sm navcta" href="#contact" data-en="Discuss a project">Обговорити проєкт</a>
+      <button class="tool burger" id="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="menu">☰</button>
+    </div>
+  </div>
+</header>
+<main id="top">
+<section class="hero">
+  <div class="wrap g">
+    <h1 data-en="<span class='hl'>We build</span> websites, web apps and Telegram bots for business"><span class="hl">Робимо</span> сайти, веб-додатки та Telegram-боти для бізнесу</h1>
+    <svg class="scene" viewBox="0 0 560 440" role="img" aria-label="Ілюстрація: сайт у браузері та Telegram-бот у телефоні" data-label-en="Illustration: a website in a browser and a Telegram bot on a phone">
+      <rect width="560" height="440" rx="28" class="p" fill="#E7E6DF"/>
+      <rect y="330" width="560" height="110" class="fl" fill="#D9D8D0"/><path d="M0 330h560" class="ln" stroke="#111111" stroke-width="2"/>
+      <rect x="36" y="52" width="338" height="258" rx="12" class="b" fill="#FBFAF6"/>
+      <path d="M36 88h338" class="ln" stroke="#111111" stroke-width="2"/><circle cx="56" cy="70" r="5" class="i" fill="#111111"/><circle cx="73" cy="70" r="5" class="l" fill="#D9D8D0"/><circle cx="90" cy="70" r="5" class="l" fill="#D9D8D0"/>
+      <rect x="60" y="116" width="170" height="18" rx="4" class="i" fill="#111111"/><rect x="60" y="142" width="122" height="18" rx="4" class="i" fill="#111111"/>
+      <rect x="60" y="174" width="210" height="8" rx="4" class="l" fill="#D9D8D0"/><rect x="60" y="190" width="180" height="8" rx="4" class="l" fill="#D9D8D0"/>
+      <rect x="60" y="214" width="104" height="32" rx="8" class="i" fill="#111111"/><rect x="60" y="262" width="92" height="32" rx="6" class="l" fill="#D9D8D0"/><rect x="160" y="262" width="92" height="32" rx="6" class="l" fill="#D9D8D0"/><rect x="260" y="262" width="92" height="32" rx="6" class="l" fill="#D9D8D0"/>
+      <rect x="276" y="110" width="76" height="116" rx="8" class="gr" fill="#9B9B93"/>
+      <rect x="64" y="318" width="250" height="12" rx="6" class="i" fill="#111111"/><rect x="82" y="330" width="10" height="46" class="i" fill="#111111"/><rect x="286" y="330" width="10" height="46" class="i" fill="#111111"/>
+      <g transform="translate(366 84)"><rect width="160" height="288" rx="26" class="i" fill="#111111"/><rect x="8" y="8" width="144" height="272" rx="19" class="b" fill="#FBFAF6"/>
+        <rect x="8" y="8" width="144" height="42" rx="19" class="l" fill="#D9D8D0"/><circle cx="32" cy="29" r="9" class="i" fill="#111111"/><rect x="48" y="24" width="56" height="9" rx="4" class="i" fill="#111111"/>
+        <rect x="20" y="66" width="104" height="38" rx="12" class="l" fill="#D9D8D0"/><text x="30" y="90" class="t" fill="#111111"></text>
+        <rect x="42" y="116" width="98" height="38" rx="12" class="i" fill="#111111"/><text x="54" y="140" class="t tw" fill="#FBFAF6"></text>
+        <rect x="20" y="168" width="124" height="52" rx="12" class="l" fill="#D9D8D0"/><text x="30" y="190" class="t" fill="#111111"></text><text x="30" y="207" class="t" fill="#111111"></text></g>
+      <circle cx="420" cy="52" r="15" class="b ln2" fill="#FBFAF6" stroke="#111111" stroke-width="1.5"/><text x="414" y="58" class="t" fill="#111111"></text><circle cx="500" cy="396" r="10" class="b ln2" fill="#FBFAF6" stroke="#111111" stroke-width="1.5"/><circle cx="34" cy="394" r="7" class="b ln2" fill="#FBFAF6" stroke="#111111" stroke-width="1.5"/>
+    </svg>
+    <div class="intro">
+      <p class="lead" data-en="Design, development and support in one team — from the first call to launch.">Дизайн, розробка і підтримка в одній команді — від першого дзвінка до запуску.</p>
+      <div class="actions">
+        <a class="btn" href="#contact" data-en="Discuss a project">Обговорити проєкт</a>
+        <a class="btn btn--ghost" href="#portfolio" data-en="See our work">Наші роботи</a>
+      </div>
+      <ul class="facts">
+        <li data-en="MVP in 2–4 weeks">MVP за 2–4 тижні</li>
+        <li data-en="You approve every screen before development">Кожен екран погоджуєте до розробки</li>
+        <li data-en="Support after launch">Підтримка після запуску</li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap">
+    <dl class="stats">
+      <div><dt>15+</dt><dd data-en="projects">проєктів</dd></div>
+      <div><dt>10+</dt><dd data-en="clients">клієнтів</dd></div>
+      <div><dt>2</dt><dd data-en="years of experience">роки досвіду</dd></div>
+    </dl>
+  </div>
+</section>
+<section class="sec " id="services">
+  <div class="wrap g">
+    <aside class="side"><span class="n">01</span><span data-en="Services">Послуги</span></aside>
+    <div class="main">
+      <h2 data-en="What we make">Що ми робимо</h2>
+      <ul class="rows">
+<li class="row"><span class="n">01</span><h3 data-en="Web applications">Веб-додатки</h3><p data-en="CRMs, SaaS products and admin panels with a clear interface and a backend that scales as the business grows.">CRM, SaaS і панелі адміністратора: зрозумілий інтерфейс та бекенд, що росте разом із бізнесом.</p><ul class="tags"><li>React / Next.js</li><li>Node.js</li><li>Python</li><li>PostgreSQL</li></ul></li>
+<li class="row"><span class="n">02</span><h3 data-en="Landing pages">Лендинги</h3><p data-en="Pages built around one action — a lead, a sign-up or a purchase. We design the interface, texts and layout, and set up SEO.">Сторінки під одну дію: заявку, реєстрацію чи покупку. Проєктуємо інтерфейс, тексти та верстку, налаштовуємо SEO.</p><ul class="tags"><li data-en="UI/UX design">UI/UX дизайн</li><li data-en="Responsive">Адаптив</li><li>SEO</li><li data-en="Animations">Анімації</li></ul></li>
+<li class="row"><span class="n">03</span><h3 data-en="Telegram bots">Telegram-боти</h3><p data-en="Bots that take orders and payments, support customers and automate routine work, connected to your systems.">Боти, що приймають замовлення й платежі, підтримують клієнтів та автоматизують рутину. Підключаємо до ваших систем.</p><ul class="tags"><li>Python</li><li>Aiogram</li><li data-en="Payments">Платежі</li><li>API</li></ul></li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section class="sec alt" id="portfolio">
+  <div class="wrap g">
+    <aside class="side"><span class="n">02</span><span data-en="Portfolio">Портфоліо</span></aside>
+    <div class="main">
+      <h2 data-en="Projects we've shipped">Проєкти, які ми запустили</h2>
+      <div class="cases">
+        <p class="thead" aria-hidden="true"><span data-en="Project">Проєкт</span><span data-en="What it does">Що робить</span><span data-en="Stack">Стек</span></p>
+        <article class="case"><h3>SproTrade</h3><p class="cat" data-en="Web app · Telegram">Веб-додаток · Telegram</p><p data-en="An educational ecosystem in Telegram: modular courses with step-by-step access and an AI assistant for students. Integrates TradingView analytics for real-time signals, and automates payments and access to the closed community.">Освітня екосистема в Telegram: модульне навчання з покроковим доступом та AI-помічник для учнів. Інтеграція з аналітикою TradingView для сигналів у реальному часі, автоматичний прийом платежів і керування доступом до закритої спільноти.</p><ul class="tags"><li>Python</li><li>Django</li><li>React</li><li>Telegram Bot</li></ul><a class="link" href="https://sprotrade.mudev.agency" rel="noopener" data-en="Open project →">Переглянути проєкт →</a></article>
+        <article class="case"><h3>PlanetCash Shop</h3><p class="cat" data-en="Telegram bot">Telegram-бот</p><p data-en="A P2P platform in Telegram for trading digital goods, with seller and buyer roles. Funds are held until delivery is confirmed; payment goes through Crypto Bot. Includes user accounts, feedback-based ratings and controlled withdrawals through an admin panel.">P2P-платформа в Telegram для торгівлі цифровими товарами з ролями продавця й покупця. Кошти холдуються до підтвердження отримання, оплата через Crypto Bot. Є кабінети користувачів, рейтинг на основі відгуків і виведення коштів через адмін-панель.</p><ul class="tags"><li>Python</li><li>Aiogram</li><li>Crypto Bot</li><li>PostgreSQL</li></ul></article>
+        <article class="case"><h3>SOCAROVSKIY 1%</h3><p class="cat" data-en="Telegram bot">Telegram-бот</p><p data-en="A tool for instant technical analysis. The bot reads TradingView data for the chosen pair and timeframe in real time, generates a trading signal and sends a current chart straight to the chat.">Інструмент миттєвого теханалізу. Бот у реальному часі бере дані з TradingView за обраною парою та таймфреймом, формує торговий сигнал і надсилає актуальний графік у чат.</p><ul class="tags"><li>TradingView</li><li>Python</li><li>Aiogram</li><li>PostgreSQL</li></ul></article>
+        <article class="case"><h3>Smart Messenger Automator</h3><p class="cat" data-en="Telegram bot">Telegram-бот</p><p data-en="A personal assistant for mass messaging in Telegram. It sends text, media, video notes and voice messages to chosen group chats, keeping the personal touch and saving the user's time.">Персональний асистент для масових розсилок у Telegram. Надсилає текст, медіа, відеоповідомлення та голосові у вибрані групи чатів, зберігаючи персональний підхід і заощаджуючи час.</p><ul class="tags"><li>Python</li><li>Aiogram</li><li>Telethon</li><li>PostgreSQL</li></ul></article>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="sec " id="process">
+  <div class="wrap g">
+    <aside class="side"><span class="n">03</span><span data-en="Process">Процес</span></aside>
+    <div class="main">
+      <h2 data-en="How a project goes">Як проходить проєкт</h2>
+      <ol class="steps">
+        <li><span class="n">01</span><h3 data-en="Discovery">Знайомство</h3><p data-en="We learn about your business and goals, agree on the scope and write the technical brief.">З’ясовуємо задачі бізнесу, узгоджуємо обсяг робіт і складаємо технічне завдання.</p></li>
+        <li><span class="n">02</span><h3 data-en="Design">Дизайн</h3><p data-en="Prototypes and mockups. You approve every screen before development starts.">Прототипи та макети. Кожен екран ви погоджуєте до початку розробки.</p></li>
+        <li><span class="n">03</span><h3 data-en="Development">Розробка</h3><p data-en="Clean, scalable code with regular progress demos.">Чистий код, що масштабується, і регулярні демонстрації прогресу.</p></li>
+        <li><span class="n">04</span><h3 data-en="Launch">Запуск</h3><p data-en="Testing, optimisation and deployment, then support and further development.">Тестування, оптимізація й деплой. Після запуску підтримуємо та розвиваємо продукт.</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+<section class="sec alt" id="about">
+  <div class="wrap g">
+    <aside class="side"><span class="n">04</span><span data-en="Why us">Чому ми</span></aside>
+    <div class="main">
+      <h2 data-en="Why work with μDev">Чому працюють із μDev</h2>
+      <dl class="why">
+        <div><dt data-en="Speed">Швидкість</dt><dd data-en="We keep deadlines: an MVP in 2–4 weeks, larger projects on an agreed schedule.">Дотримуємося дедлайнів: MVP за 2–4 тижні, складні проєкти за узгодженим графіком.</dd></div>
+        <div><dt data-en="Quality">Якість</dt><dd data-en="Clean code, modern technologies and attention to detail.">Чистий код, сучасні технології та увага до деталей.</dd></div>
+        <div><dt data-en="Communication">Комунікація</dt><dd data-en="A transparent process and regular reports, so there are no surprises.">Прозорий процес і регулярні звіти, без сюрпризів.</dd></div>
+        <div><dt data-en="Support">Підтримка</dt><dd data-en="We stay after launch: technical support, updates and scaling.">Залишаємося після запуску: технічна підтримка, оновлення та масштабування.</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+<section class="sec alt" id="contact">
+  <div class="wrap g">
+    <aside class="side"><span class="n">05</span><span data-en="Contact">Контакти</span></aside>
+    <div class="main contact">
+      <div>
+        <h2 data-en="Tell us about your project">Розкажіть про свій проєкт</h2>
+        <p class="lead" data-en="Write to us — we'll discuss the details and suggest the best solution for your business.">Напишіть нам — обговоримо деталі та запропонуємо найкраще рішення для вашого бізнесу.</p>
+        <p class="chan"><a href="https://t.me/mudev_agency" target="_blank" rel="noopener">Telegram: @mudev_agency</a><a href="mailto:support@mudev.agency">support@mudev.agency</a></p>
+      </div>
+      <form id="form" class="form" novalidate>
+        <label><span data-en="Your name">Ваше ім’я</span><input id="name" name="name" autocomplete="name" required></label>
+        <label><span data-en="Telegram username">Telegram</span><input id="telegram" name="telegram" type="text" autocomplete="username" placeholder="@username" required></label>
+        <label><span data-en="Service">Послуга</span>
+          <select id="service" name="service" required>
+            <option value="" disabled selected data-en="Choose a service">Оберіть послугу</option>
+            <option value="webapp" data-en="Web application">Веб-додаток</option>
+            <option value="landing" data-en="Landing page">Лендинг</option>
+            <option value="bot" data-en="Telegram bot">Telegram-бот</option>
+            <option value="other" data-en="Other">Інше</option>
+          </select></label>
+        <label><span data-en="About the project">Про проєкт</span><textarea id="message" name="message" rows="3"></textarea></label>
+        <button class="btn btn--full" type="submit" id="send" data-en="Send request">Надіслати запит</button>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="footer">
+  <div class="wrap foot"><span data-en="Digital solutions for ambitious businesses">Цифрові рішення для амбітних бізнесів</span><span><a href="privacy.html" data-en="Privacy policy">Політика конфіденційності</a> · © 2026 μDev</span></div>
+</footer>
+<script src="script.js"></script>
 </body>
-
 </html>

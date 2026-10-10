@@ -1,392 +1,54 @@
-/* ============================================
-   μDev — Landing Page Scripts
-   ============================================ */
+(function(){
+var root=document.documentElement,$=function(s){return document.querySelector(s)};
+var nodes=[].slice.call(document.querySelectorAll('[data-en]:not(meta)'));
+nodes.forEach(function(n){n.dataset.uk=n.innerHTML});
+var md=$('meta[name=description]'),mdUk=md?md.content:'';
+var msg={uk:{send:'Надсилаємо…',ok:'Дякуємо! Запит надіслано, ми відповімо найближчим часом.',err:'Не вдалося надіслати. Напишіть нам у Telegram або на email.',req:'Заповніть це поле'},
+en:{send:'Sending…',ok:'Thank you! Your request is sent, we will reply soon.',err:'Could not send. Please write to us on Telegram or by email.',req:'Please fill in this field'}};
+var lang='uk';try{lang=localStorage.getItem('lang')||'uk'}catch(e){}
+var btnLang=$('#lang'),scene=$('.scene'),themeBtn=$('#theme');
+if(scene)scene.dataset.labelUk=scene.getAttribute('aria-label');
+function setLang(l){lang=l;root.lang=l;
+nodes.forEach(function(n){n.innerHTML=l==='en'?n.dataset.en:n.dataset.uk});
+if(md&&md.dataset.en)md.content=l==='en'?md.dataset.en:mdUk;
+if(btnLang){btnLang.textContent=l==='en'?'UA':'EN';btnLang.setAttribute('aria-label',l==='en'?'Перемкнути на українську':'Switch to English')}
+if(themeBtn){var tl=l==='en'?'Toggle theme':'Змінити тему';themeBtn.setAttribute('aria-label',tl);themeBtn.title=tl}
+if(scene)scene.setAttribute('aria-label',l==='en'?scene.dataset.labelEn:scene.dataset.labelUk);
+try{localStorage.setItem('lang',l)}catch(e){}}
+if(btnLang)btnLang.onclick=function(){setLang(lang==='uk'?'en':'uk')};
+if(lang==='en')setLang('en');
+if(themeBtn)themeBtn.onclick=function(){var t=root.dataset.theme==='dark'?'light':'dark';root.dataset.theme=t;try{localStorage.setItem('theme',t)}catch(e){}};
+var menu=$('#menu'),burger=$('#burger');
+if(menu&&burger){
+function closeMenu(){menu.classList.remove('open');burger.setAttribute('aria-expanded','false')}
+burger.onclick=function(){var o=menu.classList.toggle('open');burger.setAttribute('aria-expanded',o)};
+menu.addEventListener('click',function(e){if(e.target.tagName==='A')closeMenu()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu()});}
 
-// ---------- Theme: restore before paint to prevent flash ----------
-(function () {
-    const saved = localStorage.getItem('theme');
-    if (saved) {
-        document.documentElement.setAttribute('data-theme', saved);
-    } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-        document.documentElement.setAttribute('data-theme', 'light');
-    }
+/* counters: run once when the numbers scroll into view */
+var cs=[].slice.call(document.querySelectorAll('[data-count]'));
+function run(el){var to=+el.dataset.count,suf=el.dataset.suf||'',t0=performance.now(),d=1100;
+(function f(t){var p=Math.min((t-t0)/d,1),v=Math.round(to*(1-Math.pow(1-p,3)));el.textContent=v+suf;if(p<1)requestAnimationFrame(f)})(t0)}
+if(cs.length&&'IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+cs.forEach(function(c){c.textContent='0'+(c.dataset.suf||'')});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;io.unobserve(e.target);run(e.target)})},{threshold:.6});
+cs.forEach(function(c){io.observe(c)});}
+
+var form=$('#form');
+if(form){
+var status=$('#status'),send=$('#send');
+var API='https://script.google.com/macros/s/AKfycbyO05i63UczuLC4UMKZfd6MR_FYcpHN-zFluqAymQGVydMp9VajKUIObcdtFBcXsnCjaw/exec';
+function say(t,c){status.textContent=t;status.className='status '+(c||'')}
+form.addEventListener('submit',function(e){e.preventDefault();
+var m=msg[lang],bad=null;
+['name','telegram','service'].forEach(function(id){var f=$('#'+id),ok=!!f.value.trim();
+f.setAttribute('aria-invalid',!ok);if(!ok&&!bad){bad=f;say(m.req,'err')}});
+if(bad){bad.focus();return}
+var data={name:$('#name').value,telegram:$('#telegram').value.trim(),service:$('#service').value,message:$('#message').value};
+send.disabled=true;var label=send.innerHTML;send.textContent=m.send;say('');
+fetch(API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+.then(function(){say(m.ok,'ok');form.reset()})
+.catch(function(){say(m.err,'err')})
+.finally(function(){send.disabled=false;send.innerHTML=label});});
+form.addEventListener('input',function(e){e.target.removeAttribute('aria-invalid')});}
 })();
-
-document.addEventListener('DOMContentLoaded', () => {
-
-    // ---------- Theme Toggle ----------
-    const themeToggle = document.getElementById('themeToggle');
-    if (themeToggle) {
-        // Sync button state on load
-        if (document.documentElement.getAttribute('data-theme') === 'light') {
-            themeToggle.classList.add('active');
-        }
-
-        themeToggle.addEventListener('click', () => {
-            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-            const newTheme = isLight ? 'dark' : 'light';
-
-            // Create wave effect from button position
-            const rect = themeToggle.getBoundingClientRect();
-            const wave = document.createElement('div');
-            wave.className = 'theme-wave';
-            wave.style.left = rect.left + rect.width / 2 + 'px';
-            wave.style.top = rect.top + rect.height / 2 + 'px';
-            wave.style.background = isLight
-                ? 'radial-gradient(circle, #000 0%, #000 40%, transparent 70%)'
-                : 'radial-gradient(circle, #fff 0%, #fff 40%, transparent 70%)';
-            document.body.appendChild(wave);
-
-            // Trigger wave animation
-            requestAnimationFrame(() => {
-                wave.classList.add('theme-wave--expand');
-            });
-
-            // Apply theme mid-wave
-            setTimeout(() => {
-                document.documentElement.setAttribute('data-theme', newTheme);
-                themeToggle.classList.toggle('active');
-                localStorage.setItem('theme', newTheme);
-            }, 200);
-
-            // Clean up wave element
-            wave.addEventListener('animationend', () => wave.remove());
-        });
-    }
-
-    // ---------- Cursor Glow ----------
-    const cursorGlow = document.getElementById('cursorGlow');
-    if (cursorGlow && window.innerWidth > 768) {
-        document.addEventListener('mousemove', (e) => {
-            cursorGlow.style.left = e.clientX + 'px';
-            cursorGlow.style.top = e.clientY + 'px';
-        });
-    }
-
-    // ---------- Header Scroll ----------
-    const header = document.getElementById('header');
-    let lastScroll = 0;
-
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.scrollY;
-        if (currentScroll > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-        lastScroll = currentScroll;
-    }, { passive: true });
-
-    // ---------- Mobile Nav Toggle ----------
-    const navToggle = document.getElementById('navToggle');
-    const navMenu = document.getElementById('navMenu');
-
-    if (navToggle && navMenu) {
-        navToggle.addEventListener('click', () => {
-            navToggle.classList.toggle('active');
-            navMenu.classList.toggle('active');
-            header.classList.toggle('menu-open');
-            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
-        });
-
-        navMenu.querySelectorAll('.nav__link').forEach(link => {
-            link.addEventListener('click', () => {
-                navToggle.classList.remove('active');
-                navMenu.classList.remove('active');
-                header.classList.remove('menu-open');
-                document.body.style.overflow = '';
-            });
-        });
-    }
-
-    // ---------- Scroll Animations (Intersection Observer) ----------
-    const animatedElements = document.querySelectorAll('[data-animate]');
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const delay = entry.target.dataset.delay || 0;
-                setTimeout(() => {
-                    entry.target.classList.add('animated');
-                }, parseInt(delay));
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-
-    animatedElements.forEach(el => observer.observe(el));
-
-    // ---------- Counter Animation ----------
-    const counters = document.querySelectorAll('[data-count]');
-
-    const counterObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const el = entry.target;
-                const target = parseInt(el.dataset.count);
-                const duration = 2000;
-                const startTime = performance.now();
-
-                function updateCounter(currentTime) {
-                    const elapsed = currentTime - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
-
-                    // Ease-out cubic
-                    const eased = 1 - Math.pow(1 - progress, 3);
-                    const current = Math.round(eased * target);
-
-                    el.textContent = current;
-
-                    if (progress < 1) {
-                        requestAnimationFrame(updateCounter);
-                    }
-                }
-
-                requestAnimationFrame(updateCounter);
-                counterObserver.unobserve(el);
-            }
-        });
-    }, { threshold: 0.5 });
-
-    counters.forEach(el => counterObserver.observe(el));
-
-    // ---------- Smooth Scroll for Anchors ----------
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = anchor.getAttribute('href');
-            const target = document.querySelector(targetId);
-            if (target) {
-                const headerOffset = 80;
-                const elementPosition = target.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.scrollY - headerOffset;
-
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-
-    // ---------- Contact Form ----------
-    const form = document.getElementById('contactForm');
-    if (form) {
-        const API_URL = 'https://script.google.com/macros/s/AKfycbyO05i63UczuLC4UMKZfd6MR_FYcpHN-zFluqAymQGVydMp9VajKUIObcdtFBcXsnCjaw/exec';
-
-        // Helper to get i18n string
-        function t(key) {
-            if (window.mudevI18n) {
-                const lang = window.mudevI18n.getCurrentLang();
-                return window.mudevI18n.translations[lang]?.[key] || key;
-            }
-            return key;
-        }
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const btn = form.querySelector('.btn');
-            const originalText = btn.innerHTML;
-
-            const data = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                service: document.getElementById('service').value,
-                message: document.getElementById('message').value,
-            };
-
-            btn.disabled = true;
-            btn.innerHTML = t('form.sending');
-
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data),
-                });
-
-                btn.innerHTML = t('form.success');
-                btn.style.background = '#4ade80';
-                btn.style.color = '#000';
-                form.reset();
-            } catch (err) {
-                btn.innerHTML = t('form.error');
-                btn.style.background = '#ef4444';
-                btn.style.color = '#fff';
-                console.error(err);
-            }
-
-            setTimeout(() => {
-                btn.innerHTML = t('contact.form.submit');
-                btn.style.background = '';
-                btn.style.color = '';
-                btn.disabled = false;
-            }, 3000);
-        });
-    }
-
-    // ---------- Portfolio Carousel ----------
-    const track = document.getElementById('portfolioTrack');
-    const prevBtn = document.getElementById('portfolioPrev');
-    const nextBtn = document.getElementById('portfolioNext');
-    const dotsContainer = document.getElementById('portfolioDots');
-
-    if (track && prevBtn && nextBtn && dotsContainer) {
-        const slides = track.querySelectorAll('.portfolio-slide');
-        let currentIndex = 0;
-        let currentTranslate = 0;
-        const slideWidth = 380 + 24; // slide width + gap
-
-        // Create dots
-        slides.forEach((_, i) => {
-            const dot = document.createElement('button');
-            dot.classList.add('portfolio__dot');
-            if (i === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => goToSlide(i));
-            dotsContainer.appendChild(dot);
-        });
-
-        function updateDots() {
-            dotsContainer.querySelectorAll('.portfolio__dot').forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentIndex);
-            });
-        }
-
-        function goToSlide(index) {
-            currentIndex = Math.max(0, Math.min(index, slides.length - 1));
-
-            const parentWidth = track.parentElement.clientWidth;
-            const paddingLeft = parseFloat(window.getComputedStyle(track).paddingLeft) || 0;
-
-            // Calculate where the center of the active slide currently is
-            const absoluteSlideCenter = paddingLeft + (currentIndex * slideWidth) + (380 / 2);
-
-            // Bring this center to the middle of the viewport
-            let centeredTranslate = absoluteSlideCenter - (parentWidth / 2);
-
-            // Keep the first slide aligned if centering would pull slider right of 0
-            currentTranslate = Math.max(0, centeredTranslate);
-
-            track.style.transform = `translateX(-${currentTranslate}px)`;
-            updateDots();
-        }
-
-        prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
-        nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
-
-        // Drag support
-        let isDragging = false;
-        let startX = 0;
-        let scrollLeft = 0;
-
-        track.addEventListener('mousedown', (e) => {
-            // Don't start drag if clicking on a link
-            if (e.target.closest('a')) return;
-            isDragging = true;
-            startX = e.pageX;
-            scrollLeft = currentTranslate;
-            track.style.transition = 'none';
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            const x = e.pageX;
-            const walk = startX - x;
-            let translate = scrollLeft + walk;
-
-            // Apply bounds with friction
-            const parentWidth = track.parentElement.clientWidth;
-            const paddingLeft = parseFloat(window.getComputedStyle(track).paddingLeft) || 0;
-            const lastSlideCenter = paddingLeft + ((slides.length - 1) * slideWidth) + (380 / 2);
-            const maxTranslate = Math.max(0, lastSlideCenter - (parentWidth / 2));
-
-            if (translate < 0) translate = translate * 0.5;
-            else if (translate > maxTranslate) translate = maxTranslate + (translate - maxTranslate) * 0.5;
-
-            track.style.transform = `translateX(-${translate}px)`;
-        });
-
-        document.addEventListener('mouseup', (e) => {
-            if (!isDragging) return;
-            isDragging = false;
-            track.style.transition = '';
-            const walk = startX - e.pageX;
-            if (Math.abs(walk) > 80) {
-                goToSlide(currentIndex + (walk > 0 ? 1 : -1));
-            } else {
-                goToSlide(currentIndex);
-            }
-        });
-
-        // Touch support
-        track.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].pageX;
-            scrollLeft = currentTranslate;
-            track.style.transition = 'none';
-        }, { passive: true });
-
-        track.addEventListener('touchmove', (e) => {
-            const x = e.touches[0].pageX;
-            const walk = startX - x;
-            let translate = scrollLeft + walk;
-
-            // Apply bounds with friction
-            const parentWidth = track.parentElement.clientWidth;
-            const paddingLeft = parseFloat(window.getComputedStyle(track).paddingLeft) || 0;
-            const lastSlideCenter = paddingLeft + ((slides.length - 1) * slideWidth) + (380 / 2);
-            const maxTranslate = Math.max(0, lastSlideCenter - (parentWidth / 2));
-
-            if (translate < 0) translate = translate * 0.5;
-            else if (translate > maxTranslate) translate = maxTranslate + (translate - maxTranslate) * 0.5;
-
-            track.style.transform = `translateX(-${translate}px)`;
-        }, { passive: true });
-
-        track.addEventListener('touchend', (e) => {
-            track.style.transition = '';
-            const walk = startX - e.changedTouches[0].pageX;
-            if (Math.abs(walk) > 50) {
-                goToSlide(currentIndex + (walk > 0 ? 1 : -1));
-            } else {
-                goToSlide(currentIndex);
-            }
-        });
-    }
-
-    // ---------- Parallax particles (subtle) ----------
-    const particlesContainer = document.getElementById('particles');
-    if (particlesContainer && window.innerWidth > 768) {
-        for (let i = 0; i < 30; i++) {
-            const particle = document.createElement('div');
-            particle.style.cssText = `
-                position: absolute;
-                width: ${Math.random() * 2 + 1}px;
-                height: ${Math.random() * 2 + 1}px;
-                background: rgba(255, 255, 255, ${Math.random() * 0.15 + 0.03});
-                border-radius: 50%;
-                left: ${Math.random() * 100}%;
-                top: ${Math.random() * 100}%;
-                animation: particle-float ${Math.random() * 10 + 10}s linear infinite;
-                animation-delay: ${Math.random() * -20}s;
-            `;
-            particlesContainer.appendChild(particle);
-        }
-
-        // Add particle animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes particle-float {
-                0% { transform: translate(0, 0) scale(1); opacity: 0; }
-                10% { opacity: 1; }
-                90% { opacity: 1; }
-                100% { transform: translate(${Math.random() > 0.5 ? '' : '-'}${Math.random() * 100 + 50}px, -${Math.random() * 200 + 100}px) scale(0); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
-    }
-});
