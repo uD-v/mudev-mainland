@@ -47,7 +47,7 @@ if(bad){bad.focus();return}
 var data={name:$('#name').value,telegram:$('#telegram').value.trim(),service:$('#service').value,message:$('#message').value};
 send.disabled=true;var label=send.innerHTML;send.textContent=m.send;say('');
 fetch(API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
-.then(function(){say(m.ok,'ok');form.reset()})
+.then(function(){say(m.ok,'ok');form.reset();(window.dataLayer=window.dataLayer||[]).push({event:'generate_lead',form_service:data.service||''})})
 .catch(function(){say(m.err,'err')})
 .finally(function(){send.disabled=false;send.innerHTML=label});});
 form.addEventListener('input',function(e){e.target.removeAttribute('aria-invalid')});}
